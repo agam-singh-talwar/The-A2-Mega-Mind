@@ -4,11 +4,7 @@ const { randomUUID } = require("crypto");
 class Tasks {
   static fromJson(json) {
     const taskData = JSON.parse(json);
-    const task = new Tasks(
-      taskData.name,
-      taskData.owner,
-      taskData.assignee
-    );
+    const task = new Tasks(taskData.name, taskData.owner, taskData.assignee);
 
     return task;
   }
@@ -19,7 +15,7 @@ class Tasks {
     this.owner = owner;
     this.created = new Date();
     this.updated = new Date();
-    this.assignee = null;
+    this.assignee = assignee;
     this.status = false;
   }
 
