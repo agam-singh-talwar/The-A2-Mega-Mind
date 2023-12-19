@@ -1,0 +1,24 @@
+const Task = require("../../src/Task.js");
+const List = require("../../src/List.js");
+
+const { SlashCommandBuilder } = require("discord.js");
+
+module.exports = {
+  data: new SlashCommandBuilder()
+    .setName("change-due-date-of-the-to-do-list")
+    .setDescription("It helps you to edit a To Do List's due date.")
+    .addStringOption((option) =>
+      option
+        .setName("due-date")
+        .setDescription("The due date of the list to edit.")
+        .setRequired(true)
+    ),
+  async execute(interaction) {
+    const name = interaction.options.getString("due-date");
+    const listItems = []; // Define an empty array for the list items
+    // ! Retrieve the list from the database and edit it
+    const list = new List(name, listItems);
+    const listJson = list.toJson();
+    await interaction.reply(`List edited! ${listJson}`);
+  },
+};

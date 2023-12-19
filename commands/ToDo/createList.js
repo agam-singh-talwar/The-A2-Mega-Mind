@@ -28,10 +28,11 @@ module.exports = {
   async execute(interaction) {
     const name = interaction.options.getString("name");
     const owner = interaction.options.getUser("owner");
+    const guildId = interaction.guild.id;
     const dueDate = interaction.options.getString("dueDate");
     const listItems = []; // Define an empty array for the list items
-    const list = new List(name, owner, listItems, dueDate);
-    const listJson = list.ToJson();
+    const list = new List(name, owner, listItems, dueDate, guildId);
+    const listJson = list.toJson();
     await interaction.reply(`List Created! ${listJson}`);
   },
 };
