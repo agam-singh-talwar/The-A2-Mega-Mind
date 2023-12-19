@@ -15,11 +15,17 @@ module.exports = {
         .setRequired(true)
     ),
   async execute(interaction) {
-    const name = interaction.options.getString("name");
-    const listItems = []; // Define an empty array for the list items
-    // ! Retrieve the list from the database and edit it
-    const list = new List(name, listItems);
-    const listJson = list.toJson();
-    await interaction.reply(`List! ${listJson}`);
+    const list = List.fromJson(await db.load("list"));
+
+    const embed = new EmbedBuilder()
+      .setColor("Random")
+      .setDescription("Lists")
+      .setTimestamp(list.dueDate)
+      .addFields({ name: "name", value: list.name })
+      .addFields({ name: "owner", value: list.owner.username });
+
+    await interaction
+      .reply({ embeds: [embed], ephemeral: false })
+      .catch(console.error);
   },
 };
