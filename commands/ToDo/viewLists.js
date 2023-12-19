@@ -1,7 +1,9 @@
 const Task = require("../../src/Task.js");
 const List = require("../../src/List.js");
 const db = require("../../src/db/db.js");
+const db = require("../../src/db/db.js");
 
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
 module.exports = {
