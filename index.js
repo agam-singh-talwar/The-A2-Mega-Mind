@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const token = process.env.TOKEN;
 const foldersPath = path.join(__dirname, "commands");
-const commandFolders = fs.readdirSync(foldersPath);
+const commandFolders = fs.readdirSync(foldersPath); 
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
