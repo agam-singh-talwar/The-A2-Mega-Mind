@@ -1,6 +1,18 @@
 //  Class to store the task items for the ToDoList
 const { randomUUID } = require("crypto");
+
 class Tasks {
+  static fromJson(json) {
+    const taskData = JSON.parse(json);
+    const task = new Tasks(
+      taskData.name,
+      taskData.owner,
+      taskData.assignee
+    );
+
+    return task;
+  }
+
   constructor(name = "Task", owner = null, assignee = null) {
     this.id = randomUUID();
     this.name = name;
@@ -27,7 +39,7 @@ class Tasks {
   }
 
   // converts the object to JSON
-  ToJson() {
+  toJson() {
     return JSON.stringify(this);
   }
 }

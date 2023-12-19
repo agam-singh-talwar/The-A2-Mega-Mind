@@ -2,6 +2,18 @@
 const { randomUUID } = require("crypto");
 
 class ToDoList {
+  static fromJson(json) {
+    const listData = JSON.parse(json);
+    const toDoList = new ToDoList(
+      listData.name,
+      listData.owner,
+      listData.list,
+      listData.dueDate
+    );
+
+    return toDoList;
+  }
+
   constructor(name = "To Do List", owner = null, list = [], dueDate = null) {
     this.id = randomUUID();
     this.name = name;
@@ -27,7 +39,7 @@ class ToDoList {
   }
 
   // converts the object to JSON
-  ToJson() {
+  toJson() {
     return JSON.stringify(this);
   }
 }
