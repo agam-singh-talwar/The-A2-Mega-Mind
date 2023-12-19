@@ -1,5 +1,5 @@
-const Task = require("../../src/Task.js");
 const List = require("../../src/List.js");
+const db = require("../../src/db/db.js");
 
 const { SlashCommandBuilder } = require("discord.js");
 
@@ -29,9 +29,11 @@ module.exports = {
     const name = interaction.options.getString("name");
     const owner = interaction.options.getUser("owner");
     const dueDate = interaction.options.getString("dueDate");
-    const listItems = []; // Define an empty array for the list items
-    const list = new List(name, owner, listItems, dueDate);
-    const listJson = list.ToJson();
+
+    const list = new List(name, owner, [], dueDate);
+    const listJson = list.toJson();
+    db.save('list', listJson);
+
     await interaction.reply(`List Created! ${listJson}`);
   },
 };
