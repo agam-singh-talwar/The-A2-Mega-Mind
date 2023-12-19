@@ -6,6 +6,7 @@ const { SlashCommandBuilder } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("view-to-do-lists")
+
     .setDescription("It helps you to view a To Do List.")
     .addStringOption((option) =>
       option
