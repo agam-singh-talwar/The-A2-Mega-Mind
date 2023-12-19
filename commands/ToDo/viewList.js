@@ -16,7 +16,6 @@ module.exports = {
   async execute(interaction) {
     const name = interaction.options.getString("name");
     const listItems = []; // Define an empty array for the list items
-    // ! Retrieve the list from the database and edit it
     const list = new List(name, listItems);
     const listJson = list.toJson();
     await interaction.reply(`List! ${listJson}`);
