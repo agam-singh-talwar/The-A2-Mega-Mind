@@ -14,8 +14,22 @@ class ToDoList {
     return toDoList;
   }
 
-  constructor(name = "To Do List", owner = null, list = [], dueDate = null) {
+  constructor(
+    name = "To Do List",
+    owner = null,
+    list = [],
+    dueDate = null,
+    guildId = null
+  ) {
+    // Check if the name is alphanumeric
+    // ! Also check if the name is not used before
+    if (!/^[a-z0-9]+$/i.test(name)) {
+      throw new Error(
+        "Name must be alphanumeric and cannot contain any spaces or symbols"
+      );
+    }
     this.id = randomUUID();
+    this.guildId = guildId;
     this.name = name;
     this.created = new Date();
     this.dueDate = dueDate;
@@ -23,6 +37,18 @@ class ToDoList {
     this.owner = owner;
     this.list = list;
   }
+
+  // edit the name of the list
+  editName(name) {
+    if (!/^[a-z0-9]+$/i.test(name)) {
+      throw new Error(
+        "Name must be alphanumeric and cannot contain any spaces or symbols"
+      );
+    }
+    this.updated = new Date();
+    this.name = name;
+  }
+
   add(item) {
     this.updated = new Date();
     this.list.push(item);
