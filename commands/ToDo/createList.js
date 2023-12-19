@@ -33,8 +33,8 @@ module.exports = {
     const list = new List(name, owner, [], dueDate, guildId);
     const listJson = list.toJson();
 
-    db.save('list', listJson);
-    
+    db.save("list", listJson);
+
     await interaction.reply(`List Created! ${listJson}`);
   },
 };

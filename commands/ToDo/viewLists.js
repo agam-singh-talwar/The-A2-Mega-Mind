@@ -2,22 +2,31 @@ const Task = require("../../src/Task.js");
 const List = require("../../src/List.js");
 const db = require("../../src/db/db.js");
 
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("view-all-to-do-lists")
     .setDescription("It helps you to view a To Do List."),
   async execute(interaction) {
-    const list = List.fromJson(await db.load("list"));
-    console.log(list);
+    const file = await db.load("list");
+    if (!file) {
+      await interaction.reply({ content: "No data found", ephemeral: true });
+      console.error("No data found");
+      return;
+    }
+    const list = List.fromJson(file);
     const GuildId = interaction.guild.id;
+    console.log("GuildId -> ", GuildId);
+
     const lists = [];
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].guildId === GuildId) lists.push(list[i]);
+    console.log("list -> ", typeof list);
+    for (const item of list) {
+      console.log("item -> ", item);
+      if (item.guildId == GuildId) lists.push(item);
     }
 
-    console.log(lists);
+    console.log("lists -> ", lists);
     const embed = new EmbedBuilder()
       .setColor("Random")
       .setDescription("To Do List");
