@@ -1,8 +1,8 @@
 //  Class to store the task items for the ToDoList
-
+const { randomUUID } = require("crypto");
 class Tasks {
   constructor(name = "Task", owner = null, assignee = null) {
-    // !this.id  = Math.random().toString(36).substr(2, 9);
+    this.id = randomUUID();
     this.name = name;
     this.owner = owner;
     this.created = new Date();
@@ -31,3 +31,5 @@ class Tasks {
     return JSON.stringify(this);
   }
 }
+
+module.exports = Tasks;
