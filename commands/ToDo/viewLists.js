@@ -6,7 +6,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("View-all-lists")
+    .setName("view-all-lists")
     .setDescription("It helps you to view a To Do List."),
   async execute(interaction) {
     const list = List.fromJson(await db.load('list'));

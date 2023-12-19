@@ -5,7 +5,7 @@ const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("change-due-date-of-the-to-do-list")
+    .setName("change-due-date")
     .setDescription("It helps you to edit a To Do List's due date.")
     .addStringOption((option) =>
       option
