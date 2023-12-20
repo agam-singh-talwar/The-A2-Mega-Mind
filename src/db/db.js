@@ -1,17 +1,18 @@
-const fs = require("fs/promises");
+import { readFile, writeFile } from "fs/promises";
 
-async function load(name) {
+export async function load(name) {
   try {
-    const data = await fs.readFile(`./saves/${name}.json`, "utf-8");
+    const data = await readFile(`./saves/${name}.json`, "utf-8");
     return data;
   } catch (err) {
     console.warn(err);
   }
 }
-async function save(name, json) {
+
+export async function save(name, json) {
   try {
     // Read the existing file
-    const data = await fs.readFile(`./saves/${name}.json`, "utf-8");
+    const data = await readFile(`./saves/${name}.json`, "utf-8");
     var jsonData = JSON.parse(data);
 
     // Append the new data
@@ -23,10 +24,8 @@ async function save(name, json) {
     }
 
     // Write the updated data back to the file
-    await fs.writeFile(`./saves/${name}.json`, JSON.stringify(jsonData));
+    await writeFile(`./saves/${name}.json`, JSON.stringify(jsonData));
   } catch (err) {
     console.warn(err);
   }
 }
-
-module.exports = { load, save };

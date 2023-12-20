@@ -1,7 +1,7 @@
 //  Class to store the task items for the ToDoList
-const { randomUUID } = require("crypto");
+import { randomUUID } from "crypto";
 
-class Tasks {
+export class Tasks {
   static fromJson(json) {
     const taskData = JSON.parse(json);
     const task = new Tasks(taskData.name, taskData.owner, taskData.assignee);
@@ -23,7 +23,7 @@ class Tasks {
     this.name = name;
     this.assignee = assignee;
     this.status = status;
-    thius.updated = new Date();
+    this.updated = new Date();
   }
 
   markComplete() {
@@ -40,4 +40,4 @@ class Tasks {
   }
 }
 
-module.exports = Tasks;
+export default Tasks;

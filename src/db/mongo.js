@@ -1,5 +1,6 @@
-const { MongoClient } = require("mongodb");
-require("dotenv").config();
+import 'dotenv/config';
+import { MongoClient } from "mongodb";
+
 const uri = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@senecaweb.grvntlm.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 

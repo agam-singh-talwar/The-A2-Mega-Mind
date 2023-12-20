@@ -1,7 +1,7 @@
 // Class to store the list of to do items
-const { randomUUID } = require("crypto");
+import { randomUUID } from "crypto";
 
-class ToDoList {
+export class ToDoList {
   static fromJson(json) {
     const listData = JSON.parse(json);
     const toDoList = new ToDoList(
@@ -70,4 +70,4 @@ class ToDoList {
   }
 }
 
-module.exports = ToDoList;
+export default ToDoList;

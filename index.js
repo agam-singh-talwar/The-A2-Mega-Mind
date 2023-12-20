@@ -1,25 +1,27 @@
-// Require the necessary discord.js classes
-const fs = require("node:fs");
-const path = require("node:path");
-const { Client, Events, GatewayIntentBits, Collection } = require("discord.js");
-require("dotenv").config();
+import { Client, Events, GatewayIntentBits, Collection } from "discord.js";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from 'node:url';
+import { readdirSync } from "node:fs";
+import 'dotenv/config';
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 const token = process.env.TOKEN;
-const foldersPath = path.join(__dirname, "commands");
-const commandFolders = fs.readdirSync(foldersPath); 
+const foldersPath = join(__dirname, "commands");
+const commandFolders = readdirSync(foldersPath); 
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.commands = new Collection();
 
 for (const folder of commandFolders) {
-  const commandsPath = path.join(foldersPath, folder);
-  const commandFiles = fs
-    .readdirSync(commandsPath)
+  const commandsPath = join(foldersPath, folder);
+  const commandFiles = readdirSync(commandsPath)
     .filter((file) => file.endsWith(".js"));
   for (const file of commandFiles) {
-    const filePath = path.join(commandsPath, file);
-    const command = require(filePath);
+    const filePath = join(commandsPath, file);
+    const command = await import(filePath);
     // Set a new item in the Collection with the key as the command name and the value as the exported module
     if ("data" in command && "execute" in command) {
       client.commands.set(command.data.name, command);
