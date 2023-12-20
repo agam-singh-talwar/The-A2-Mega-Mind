@@ -1,22 +1,22 @@
-import 'dotenv/config';
-import { MongoClient } from "mongodb";
+const { connect } = require("./db"); // replace './db' with the actual path to the db.js file
 
-const uri = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@senecaweb.grvntlm.mongodb.net/?retryWrites=true&w=majority`;
-const client = new MongoClient(uri);
-
-async function run() {
-  try {
-    await client.connect();
-    const db = client.db("A2_Bot");
-    // Create a new collection named "A2 Bot"
-    const collection = db.collection("Lists");
-
-    // Insert a document into the new collection
-    const result = await collection.insertOne({ test: "test" });
-    console.log(`A document was inserted with the _id: ${result.insertedId}`);
-  } finally {
-    // Close the database connection when finished or an error occurs
-    await client.close();
-  }
+async function createList(newListing) {
+  const client = await connect();
+  const result = await client
+    .db("A2_Bot")
+    .collection("Lists")
+    .insertOne(newListing);
+  console.log(
+    `New listing created with the following id: ${result.insertedId}`
+  );
+  return result;
 }
-run().catch(console.error);
+
+createList({
+  name: "My List",
+  owner: "My Owner",
+  items: [],
+  dueDate: "2021-10-10",
+  guildId: "1234567890",
+});
+module.exports = { createList };

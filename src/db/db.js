@@ -1,31 +1,22 @@
-import { readFile, writeFile } from "fs/promises";
+// db.js
+const { MongoClient } = require("mongodb");
+require("dotenv").config();
+const uri = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@senecaweb.grvntlm.mongodb.net/?retryWrites=true&w=majority`;
+const client = new MongoClient(uri);
 
-export async function load(name) {
+async function connect() {
   try {
-    const data = await readFile(`./saves/${name}.json`, "utf-8");
-    return data;
-  } catch (err) {
-    console.warn(err);
-  }
-}
-
-export async function save(name, json) {
-  try {
-    // Read the existing file
-    const data = await readFile(`./saves/${name}.json`, "utf-8");
-    var jsonData = JSON.parse(data);
-
-    // Append the new data
-    const newJsonData = JSON.parse(json);
-    if (Array.isArray(jsonData)) {
-      jsonData.push(newJsonData);
-    } else {
-      jsonData = [jsonData, newJsonData];
+    if (!(client.topology && client.topology.isConnected())) {
+      await client.connect();
     }
 
-    // Write the updated data back to the file
-    await writeFile(`./saves/${name}.json`, JSON.stringify(jsonData));
+    const db = client.db("A2_Bot");
+    await db.command({ ping: 1 });
+    return client;
   } catch (err) {
-    console.warn(err);
+    console.error("Error connecting to the database", err);
+    throw err;
   }
 }
+
+module.exports = { connect };
