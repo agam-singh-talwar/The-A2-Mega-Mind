@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "commands": "node deploy-commands.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db": " node ./src/db/mongo.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +15,7 @@
   "dependencies": {
     "crypto": "^1.0.1",
     "discord.js": "^14.14.1",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "mongodb": "^6.3.0"
   }
 }
