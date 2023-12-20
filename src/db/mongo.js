@@ -1,6 +1,6 @@
-const { connect } = require("./db"); // replace './db' with the actual path to the db.js file
+import { connect } from "./db"; // replace './db' with the actual path to the db.js file
 
-async function createList(newListing) {
+export async function createList(newListing) {
   const client = await connect();
   const result = await client
     .db("A2_Bot")
@@ -19,4 +19,3 @@ createList({
   dueDate: "2021-10-10",
   guildId: "1234567890",
 });
-module.exports = { createList };

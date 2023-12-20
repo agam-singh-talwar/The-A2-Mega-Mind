@@ -1,10 +1,10 @@
-// db.js
-const { MongoClient } = require("mongodb");
-require("dotenv").config();
+import { MongoClient } from "mongodb";
+import 'dotenv/config';
+
 const uri = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@senecaweb.grvntlm.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
-async function connect() {
+export async function connect() {
   try {
     if (!(client.topology && client.topology.isConnected())) {
       await client.connect();
@@ -18,5 +18,3 @@ async function connect() {
     throw err;
   }
 }
-
-module.exports = { connect };
