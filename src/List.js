@@ -15,10 +15,16 @@ export class ToDoList {
   }
 
   constructor(
+    // Each nbame must be unique
+    // ! Check if the name is not used before
+    // ! Check if the name is alphanumeric
     name = "To Do List",
+    // If no onwer is provided it;s the perdon who made the list/ invoked the bot
     owner = null,
     list = [],
+    // Format  YYYY-MM-DD
     dueDate = null,
+    // The guild id of the server the list belongs to
     guildId = null
   ) {
     // Check if the name is alphanumeric
