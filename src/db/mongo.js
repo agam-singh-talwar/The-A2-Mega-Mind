@@ -1,6 +1,6 @@
-import { connect } from "./db.js"; // replace './db' with the actual path to the db.js file
+import { connect } from "./db.js";
 import ToDoList from "../List.js";
-4;
+
 export async function createList(newListing) {
   const client = await connect();
   //  check if the name already exists
@@ -105,7 +105,88 @@ export async function editDueDate(listName, newDueDate) {
   return result;
 }
 
-//Tsting
+export async function createTask(list, task) {
+  const client = await connect();
+
+  const exists = await checkListName(list.name);
+  if (!exists) {
+    console.warn("List name not found");
+    
+    return null;
+  }
+  
+  const result = await client
+    .db("A2_Bot")
+    .collection("Lists")
+    .findOneAndUpdate(
+      { name: list.name },
+      { $push: { tasks: task } },
+      { returnDocument: 'after' } 
+    )
+  
+  console.log(`New task created with the following id: ${result.value._id}`);
+
+  return result;
+}
+
+export async function deleteTask(list, task) {
+  const client = await connect();
+
+  const exists = await checkListName(list.name);
+  if (!exists) {
+    console.warn("List name not found");
+    
+    return null;
+  }
+  
+  const result = await client
+    .db("A2_Bot")
+    .collection("Lists")
+    .findOneAndUpdate(
+      { name: list.name },
+      { $pull: { tasks: { name: task.name } } },
+      { returnDocument: 'after' }
+    );
+  
+  if (!result.value) {
+    console.warn(`Task named ${task.name} not found in list ${list.name}`);
+    return null;
+  }
+
+  console.log(`Task removed with the following id: ${result.value._id}`);
+
+  return result;
+}
+
+export async function updateTask(list, task) {
+  const client = await connect();
+
+  const exists = await checkListName(list.name);
+  if (!exists) {
+    console.warn("List name not found");
+    
+    return null;
+  }
+  
+  const result = await client
+    .db("A2_Bot")
+    .collection("Lists")
+    .findOneAndUpdate(
+      { name: listName, 'tasks.name': task.name },
+      { $set: { 'tasks.$': task } },
+      { returnDocument: 'after' }
+    );
+
+  if (!result.value) {
+    console.warn(`Task named ${task.name} not found in list ${list.name}`);
+    return null;
+  }
+
+  console.log(`Task named ${task.name} updated in list ${listName}`);
+}
+
+
+//Testing
 
 const testList = new ToDoList(
   "TestList",
