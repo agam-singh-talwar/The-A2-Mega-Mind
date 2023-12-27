@@ -111,19 +111,19 @@ export async function createTask(list, task) {
   const exists = await checkListName(list.name);
   if (!exists) {
     console.warn("List name not found");
-    
+
     return null;
   }
-  
+
   const result = await client
     .db("A2_Bot")
     .collection("Lists")
     .findOneAndUpdate(
       { name: list.name },
       { $push: { tasks: task } },
-      { returnDocument: 'after' } 
-    )
-  
+      { returnDocument: "after" }
+    );
+
   console.log(`New task created with the following id: ${result.value._id}`);
 
   return result;
@@ -135,19 +135,19 @@ export async function deleteTask(list, task) {
   const exists = await checkListName(list.name);
   if (!exists) {
     console.warn("List name not found");
-    
+
     return null;
   }
-  
+
   const result = await client
     .db("A2_Bot")
     .collection("Lists")
     .findOneAndUpdate(
       { name: list.name },
       { $pull: { tasks: { name: task.name } } },
-      { returnDocument: 'after' }
+      { returnDocument: "after" }
     );
-  
+
   if (!result.value) {
     console.warn(`Task named ${task.name} not found in list ${list.name}`);
     return null;
@@ -164,17 +164,17 @@ export async function updateTask(list, task) {
   const exists = await checkListName(list.name);
   if (!exists) {
     console.warn("List name not found");
-    
+
     return null;
   }
-  
+
   const result = await client
     .db("A2_Bot")
     .collection("Lists")
     .findOneAndUpdate(
-      { name: listName, 'tasks.name': task.name },
-      { $set: { 'tasks.$': task } },
-      { returnDocument: 'after' }
+      { name: listName, "tasks.name": task.name },
+      { $set: { "tasks.$": task } },
+      { returnDocument: "after" }
     );
 
   if (!result.value) {
@@ -184,22 +184,3 @@ export async function updateTask(list, task) {
 
   console.log(`Task named ${task.name} updated in list ${listName}`);
 }
-
-
-//Testing
-
-const testList = new ToDoList(
-  "TestList",
-  "Test Owner",
-  ["Test Item 1", "Test Item 2"],
-  "2021-10-10",
-  "Test Guild Id"
-);
-
-createList(testList);
-viewAList("TestList");
-viewAllLists("Test Guild Id");
-deleteList("TestList");
-editList("TestList", "NewTestList");
-editDueDate("NewTestList", "2021-10-11");
-checkListName("NewTestList");

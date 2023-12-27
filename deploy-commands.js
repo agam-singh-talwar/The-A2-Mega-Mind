@@ -1,11 +1,11 @@
 import { REST, Routes } from "discord.js";
 import { join, dirname } from "node:path";
 import { readdirSync } from "node:fs";
-import { fileURLToPath } from 'node:url';
-import 'dotenv/config';
+import { fileURLToPath } from "node:url";
+import "dotenv/config";
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const clientId = process.env.CLIENT_ID;
 const guildId = process.env.GUILD_ID;
@@ -19,8 +19,9 @@ const commandFolders = readdirSync(foldersPath);
 for (const folder of commandFolders) {
   // Grab all the command files from the commands directory you created earlier
   const commandsPath = join(foldersPath, folder);
-  const commandFiles = readdirSync(commandsPath)
-    .filter((file) => file.endsWith(".js"));
+  const commandFiles = readdirSync(commandsPath).filter((file) =>
+    file.endsWith(".js")
+  );
   // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
   for (const file of commandFiles) {
     const filePath = join(commandsPath, file);
@@ -45,6 +46,9 @@ const rest = new REST().setToken(token);
     console.log(
       `Started refreshing ${commands.length} application (/) commands.`
     );
+    console.log("clientId -> ", clientId);
+    console.log("guildId -> ", guildId);
+    console.log("commands -> ", commands);
 
     // The put method is used to fully refresh all commands in the guild with the current set
     const data = await rest.put(

@@ -1,30 +1,14 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import { ToDoList } from "../../src/List.js";
-import { load } from "../../src/db/db.js";
 
 export const data = new SlashCommandBuilder()
   .setName("view-all-to-do-lists")
   .setDescription("It helps you to view a To Do List.");
-export async function execute(interaction) {
-  const file = await load("list");
-  
-  if (!file) {
-    await interaction.reply({ content: "No data found", ephemeral: true });
-    console.error("No data found");
-    return;
-  }
 
-  const list = ToDoList.fromJson(file);
+export async function execute(interaction) {
   const GuildId = interaction.guild.id;
   console.log("GuildId -> ", GuildId);
 
-  const lists = [];
-  console.log("list -> ", typeof list);
-  for (const item of list) {
-    console.log("item -> ", item);
-    if (item.guildId == GuildId) lists.push(item);
-  }
-
+  const lists = await viewAllLists(GuildId);
   console.log("lists -> ", lists);
   const embed = new EmbedBuilder()
     .setColor("Random")
