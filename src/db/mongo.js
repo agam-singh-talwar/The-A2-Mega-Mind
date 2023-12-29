@@ -1,14 +1,19 @@
 import { connect } from "./db.js";
-import ToDoList from "../List.js";
 
-export async function createList(newListing) {
+async function checkConnection(listName) {
   const client = await connect();
-  //  check if the name already exists
-  const exists = await checkListName(newListing.name);
+
+  const exists = await checkListName(listName);
   if (exists) {
     console.log("Name already exists");
-    return;
   }
+
+  return client;
+}
+
+export async function createList(newListing) {
+  const client = checkConnection(newListing.name);
+
   // Check if the collection exists, if not, create it
   const result = await client
     .db("A2_Bot")
@@ -69,13 +74,8 @@ export async function deleteList(listName) {
 
 //  Edit a list's name
 export async function editList(listName, newName) {
-  const client = await connect();
-  // Check if the newName already exists
-  const exists = await checkListName(newName);
-  if (exists) {
-    console.log("Name already exists");
-    return;
-  }
+  const client = checkConnection(listName);
+
   const result = await client
     .db("A2_Bot")
     .collection("Lists")
@@ -105,21 +105,14 @@ export async function editDueDate(listName, newDueDate) {
   return result;
 }
 
-export async function createTask(list, task) {
-  const client = await connect();
-
-  const exists = await checkListName(list.name);
-  if (!exists) {
-    console.warn("List name not found");
-
-    return null;
-  }
+export async function createTask(listName, task) {
+  const client = checkConnection(listName);
 
   const result = await client
     .db("A2_Bot")
     .collection("Lists")
     .findOneAndUpdate(
-      { name: list.name },
+      { name: listName },
       { $push: { tasks: task } },
       { returnDocument: "after" }
     );
@@ -129,27 +122,20 @@ export async function createTask(list, task) {
   return result;
 }
 
-export async function deleteTask(list, task) {
-  const client = await connect();
-
-  const exists = await checkListName(list.name);
-  if (!exists) {
-    console.warn("List name not found");
-
-    return null;
-  }
+export async function deleteTask(listName, taskName) {
+  const client = checkConnection(listName);
 
   const result = await client
     .db("A2_Bot")
     .collection("Lists")
     .findOneAndUpdate(
-      { name: list.name },
-      { $pull: { tasks: { name: task.name } } },
+      { name: listName },
+      { $pull: { tasks: { name: taskName } } },
       { returnDocument: "after" }
     );
 
   if (!result.value) {
-    console.warn(`Task named ${task.name} not found in list ${list.name}`);
+    console.warn(`Task named ${taskName} not found in list ${listName}`);
     return null;
   }
 
@@ -158,15 +144,8 @@ export async function deleteTask(list, task) {
   return result;
 }
 
-export async function updateTask(list, task) {
-  const client = await connect();
-
-  const exists = await checkListName(list.name);
-  if (!exists) {
-    console.warn("List name not found");
-
-    return null;
-  }
+export async function updateTask(listName, task) {
+  const client = checkConnection(listName);
 
   const result = await client
     .db("A2_Bot")
@@ -178,9 +157,29 @@ export async function updateTask(list, task) {
     );
 
   if (!result.value) {
-    console.warn(`Task named ${task.name} not found in list ${list.name}`);
+    console.warn(`Task named ${task.name} not found in list ${listName}`);
     return null;
   }
 
   console.log(`Task named ${task.name} updated in list ${listName}`);
+}
+
+export async function toggleTask(listName, task) {
+  const client = checkConnection(listName);
+
+  const result = await client
+    .db("A2_Bot")
+    .collection("Lists")
+    .findOneAndUpdate(
+      { name: listName, "tasks.name": task.name },
+      { $set: { "tasks.$.status": !task.status } },
+      { returnDocument: "after" }
+    );
+
+  if (!result.value) {
+    console.warn(`Task named ${task.name} not found in list ${listName}`);
+    return null;
+  }
+
+  console.log(`Task named ${task.name} toggled in list ${listName}`);
 }

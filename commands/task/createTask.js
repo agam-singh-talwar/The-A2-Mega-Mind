@@ -1,19 +1,20 @@
 import { SlashCommandBuilder } from "discord.js";
-import List from "../../src/List.js";
+import { createTask } from "../../src/db/mongo.js";
+import Tasks from "../../src/Tasks.js";
 
 export const data = new SlashCommandBuilder()
   .setName("create-task")
   .setDescription("Create a task in the specified list")
   .addStringOption((option) =>
     option
-      .setName("name")
-      .setDescription("The name of the task")
+      .setName("list")
+      .setDescription("The list the task should be associated with")
       .setRequired(true)
   )
   .addStringOption((option) =>
     option
-      .setName("list")
-      .setDescription("The list the task should be associated with")
+      .setName("name")
+      .setDescription("The name of the task")
       .setRequired(true)
   )
   .addUserOption((option) =>
@@ -36,14 +37,14 @@ export const data = new SlashCommandBuilder()
   );
 
 export async function execute(interaction) {
+  const list = interaction.options.getString("list");
   const name = interaction.options.getString("name");
   const owner = interaction.options.getUser("owner");
-  const guildId = interaction.guild.id;
-  const dueDate = interaction.options.getString("dueDate");
-  const list = new List(name, owner, [], dueDate, guildId);
-  const listJson = list.toJson();
+  const description = interaction.options.getString("description");
+  const assignee = interaction.options.getUser("assignee");
+  const task = new Tasks({ name: name, description: description, owner: owner, assignee: assignee });
 
-  save("list", listJson);
+  await createTask(list, task);
 
-  await interaction.reply(`List Created! ${listJson}`);
+  await interaction.reply(`Task Created! ${task}`);
 }
