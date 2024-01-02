@@ -1,21 +1,23 @@
 import { SlashCommandBuilder } from "discord.js";
-import { createList } from "../../src/db/mongo.js";
+import { checkListName, createList } from "../../src/db/mongo.js";
 import List from "../../src/List.js";
 
 export const data = new SlashCommandBuilder()
   .setName("create-list")
-  .setDescription("It helps you to create a To Do List")
-  .addStringOption((option) =>
-    option
-      .setName("name")
-      .setDescription("The name of the list")
-      .setRequired(true)
+  .setDescription("Create a list")
+  .addStringOption(
+    (option) =>
+      option
+        .setName("name")
+        .setDescription("The name of the list")
+        .setRequired(true) // Name is required
   )
-  .addUserOption((option) =>
-    option
-      .setName("owner")
-      .setDescription("The person responsible for the list")
-      .setRequired(true)
+  .addUserOption(
+    (option) =>
+      option
+        .setName("owner")
+        .setDescription("The person responsible for the list")
+        .setRequired(true) // Someone must be responsible for the list
   )
   .addStringOption((option) =>
     option
@@ -25,13 +27,18 @@ export const data = new SlashCommandBuilder()
   );
 export async function execute(interaction) {
   const name = interaction.options.getString("name");
+  const check = await checkListName(name);
+  if (check) {
+    await interaction.reply(`List already exists!`);
+    return;
+  }
   const owner = interaction.options.getUser("owner");
-  const guildId = interaction.guild.id;
+  const guildId = interaction.guild.id; // Store the guild id of the server the list belongs to
   const dueDate = interaction.options.getString("dueDate");
   const list = new List(name, owner, guildId, dueDate);
   const res = await createList(list);
   if (!res) {
-    await interaction.reply(`List already exists!`);
+    await interaction.reply(`Error:${res}`);
     return;
   }
   await interaction.reply(`List Created! ${listJson}`);

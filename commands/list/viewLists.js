@@ -6,10 +6,7 @@ export const data = new SlashCommandBuilder()
 
 export async function execute(interaction) {
   const GuildId = interaction.guild.id;
-  console.log("GuildId -> ", GuildId);
-
   const lists = await viewAllLists(GuildId);
-  console.log("lists -> ", lists);
   const embed = new EmbedBuilder()
     .setColor("Random")
     .setDescription("To Do List");

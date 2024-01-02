@@ -35,12 +35,12 @@ export async function checkListName(name) {
   return result;
 }
 // View a specific list
-export async function viewAList(listName) {
+export async function viewAList(listName, guildId) {
   const client = await connect();
   const result = await client
     .db("A2_Bot")
     .collection("Lists")
-    .findOne({ name: listName });
+    .findOne({ name: listName, guildId: guildId });
 
   console.log("Viewed list", result);
 
@@ -60,12 +60,12 @@ export async function viewAllLists(guildId) {
 }
 
 // Delete a list
-export async function deleteList(listName) {
+export async function deleteList(listName, guildId) {
   const client = await connect();
   const result = await client
     .db("A2_Bot")
     .collection("Lists")
-    .deleteOne({ name: listName });
+    .deleteOne({ name: listName, guildId: guildId });
 
   console.log("Deleted list", result);
 
@@ -87,7 +87,7 @@ export async function editList(listName, newName) {
 }
 
 // Edit a list's due date
-export async function editDueDate(listName, newDueDate) {
+export async function editDueDate(listName, guildid, newDueDate) {
   const client = await connect();
   // Check if the passed in date is valid
   const date = new Date(newDueDate);
@@ -98,7 +98,10 @@ export async function editDueDate(listName, newDueDate) {
   const result = await client
     .db("A2_Bot")
     .collection("Lists")
-    .updateOne({ name: listName }, { $set: { dueDate: newDueDate } });
+    .updateOne(
+      { name: listName, guildId: guildid },
+      { $set: { dueDate: newDueDate } }
+    );
 
   console.log("Edited list", result);
 
