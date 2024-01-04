@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { SlashCommandBuilder } from "discord.js";
 import { checkListName, createList } from "../../src/db/mongo.js";
 import List from "../../src/List.js";
@@ -44,5 +43,3 @@ export async function execute(interaction) {
   }
   await interaction.reply(`List Created! ${listJson}`);
 }
-=======
->>>>>>> d53e3bb (Update)
