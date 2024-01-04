@@ -110,6 +110,7 @@ export async function editDueDate(listName, guildid, newDueDate) {
 
 export async function createTask(listName, task) {
   const client = await checkConnection(listName);
+
   const result = await client
     .db("A2_Bot")
     .collection("Lists")
@@ -127,7 +128,7 @@ export async function createTask(listName, task) {
 }
 
 export async function deleteTask(listName, taskName) {
-  const client = checkConnection(listName);
+  const client = await checkConnection(listName);
 
   const result = await client
     .db("A2_Bot")
@@ -149,7 +150,7 @@ export async function deleteTask(listName, taskName) {
 }
 
 export async function updateTask(listName, task) {
-  const client = checkConnection(listName);
+  const client = await checkConnection(listName);
 
   const result = await client
     .db("A2_Bot")
@@ -169,7 +170,7 @@ export async function updateTask(listName, task) {
 }
 
 export async function toggleTask(listName, task) {
-  const client = checkConnection(listName);
+  const client = await checkConnection(listName);
 
   const result = await client
     .db("A2_Bot")
