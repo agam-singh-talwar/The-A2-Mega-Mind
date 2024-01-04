@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // Class to store the list of to do items
 
 export class ToDoList {
@@ -24,5 +23,3 @@ export class ToDoList {
 }
 
 export default ToDoList;
-=======
->>>>>>> d53e3bb (Update)

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { SlashCommandBuilder } from "discord.js";
 import List from "../../src/List.js";
 
@@ -26,5 +25,3 @@ export async function execute(interaction) {
     return;
   }
 }
-=======
->>>>>>> d53e3bb (Update)
