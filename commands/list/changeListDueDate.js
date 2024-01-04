@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { SlashCommandBuilder } from "discord.js";
 import List from "../../src/List.js";
 import { viewAList, editDueDate, checkListName } from "../../src/db/mongo.js";
@@ -28,3 +29,5 @@ export async function execute(interaction) {
   }
   const res = await editDueDate(name, guildId, dueDate);
 }
+=======
+>>>>>>> d53e3bb (Update)
