@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { SlashCommandBuilder } from "discord.js";
 import { deleteTask } from "../../src/db/mongo.js";
 
@@ -21,3 +22,5 @@ export async function execute(interaction) {
 
   await interaction.reply(`Task Deleted! ${taskName}`);
 }
+=======
+>>>>>>> d53e3bb (Update)
