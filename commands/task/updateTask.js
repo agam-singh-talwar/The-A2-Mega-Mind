@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import { updateTask } from "../../src/db/mongo.js";
-import Tasks from "../../src/Tasks.js";
+import { Task } from "../../src/Task.js";
 
 export const data = new SlashCommandBuilder()
   .setName("update-task")
@@ -42,7 +42,7 @@ export async function execute(interaction) {
   const owner = interaction.options.getUser("owner");
   const description = interaction.options.getString("description");
   const assignee = interaction.options.getUser("assignee");
-  const task = new Tasks({ name: name, description: description, owner: owner, assignee: assignee });
+  const task = new Task({ name: name, description: description, owner: owner, assignee: assignee });
 
   await updateTask(list, task);
 
