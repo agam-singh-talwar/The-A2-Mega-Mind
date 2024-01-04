@@ -109,8 +109,7 @@ export async function editDueDate(listName, guildid, newDueDate) {
 }
 
 export async function createTask(listName, task) {
-  const client = checkConnection(listName);
-
+  const client = await checkConnection(listName);
   const result = await client
     .db("A2_Bot")
     .collection("Lists")
@@ -120,7 +119,9 @@ export async function createTask(listName, task) {
       { returnDocument: "after" }
     );
 
-  console.log(`New task created with the following id: ${result.value._id}`);
+  console.log(
+    `New task created with the following id: ${JSON.stringify(result)}`
+  );
 
   return result;
 }
