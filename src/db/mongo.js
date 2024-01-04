@@ -52,7 +52,7 @@ export async function viewAllLists(guildId) {
   const result = await client
     .db("A2_Bot")
     .collection("Lists")
-    .findOne({ guildId: guildId });
+    .find({ guildId: guildId });
 
   console.log("Viewed list", result);
 

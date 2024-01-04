@@ -22,7 +22,7 @@ export async function execute(interaction) {
   const list = await viewAList(name, guildId);
   // only to return lists that belong to the server with the given name
   if (!list) {
-    await interaction.reply(`Error:${list}`);
+    await interaction.reply(`No lists found!`);
     return;
   }
   await interaction.reply(`List Created! ${list}`);

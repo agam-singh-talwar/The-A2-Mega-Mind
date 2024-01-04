@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-
+import { viewAllLists } from "../../src/db/mongo.js";
 export const data = new SlashCommandBuilder()
   .setName("view-all-to-do-lists")
   .setDescription("It helps you to view a To Do List.");
@@ -7,6 +7,11 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction) {
   const GuildId = interaction.guild.id;
   const lists = await viewAllLists(GuildId);
+  if (!lists) {
+    await interaction.reply(`No lists found!`);
+    return;
+  }
+  console.log(JSON.stringify(lists));
   const embed = new EmbedBuilder()
     .setColor("Random")
     .setDescription("To Do List");

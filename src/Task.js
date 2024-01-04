@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //  Class to store the task items for the ToDoList
 
 export class Task {
@@ -18,3 +19,5 @@ export class Task {
 }
 
 export default Task;
+=======
+>>>>>>> d53e3bb (Update)
