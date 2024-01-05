@@ -78,13 +78,15 @@ export async function deleteList(listName, guildId) {
 }
 
 //  Edit a list's name
-export async function editList(listName, newName) {
-  const client = checkConnection(listName);
-
+export async function editList(listName, guildId, newName) {
+  const client = await checkConnection(listName);
   const result = await client
     .db("A2_Bot")
     .collection("Lists")
-    .updateOne({ name: listName }, { $set: { name: newName } });
+    .updateOne(
+      { name: listName, guildId: guildId },
+      { $set: { name: newName } }
+    );
 
   console.log("Edited list", result);
 
