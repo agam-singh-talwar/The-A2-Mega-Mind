@@ -12,7 +12,7 @@ async function checkConnection(listName) {
 }
 
 export async function createList(newListing) {
-  const client = checkConnection(newListing.name);
+  const client = await checkConnection(newListing.name);
 
   // Check if the collection exists, if not, create it
   const result = await client
@@ -31,7 +31,7 @@ export async function checkListName(name) {
     .db("A2_Bot")
     .collection("Lists")
     .findOne({ name: name });
-  console.log("Name already exists", result);
+  // console.log("Name already exists", result);
   return result;
 }
 // View a specific list

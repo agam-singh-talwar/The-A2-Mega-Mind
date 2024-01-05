@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import { checkListName, createList } from "../../src/db/mongo.js";
-import List from "../../src/List.js";
+import ToDoList from "../../src/List.js";
 
 export const data = new SlashCommandBuilder()
   .setName("create-list")
@@ -33,14 +33,14 @@ export async function execute(interaction) {
     return;
   }
   const owner = interaction.options.getUser("owner");
-  console.log(interaction.guild.id);
   const guildId = interaction.guild.id; // Store the guild id of the server the list belongs to
-  const dueDate = interaction.options.getString("dueDate");
-  const list = new List(name, owner, guildId, dueDate);
+  console.log("Guild ID - >", interaction.guild.id);
+  const dueDate = interaction.options.getString("due-date"); // Changed "dueDate" to "due-date"
+  const list = new ToDoList(name, owner, dueDate, guildId);
   const res = await createList(list);
   if (!res) {
     await interaction.reply(`Error:${res}`);
     return;
   }
-  await interaction.reply(`List Created! ${listJson}`);
+  await interaction.reply(`List Created! ${list.name}`);
 }
