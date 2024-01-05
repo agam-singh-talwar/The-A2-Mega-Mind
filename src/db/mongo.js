@@ -52,11 +52,16 @@ export async function viewAllLists(guildId) {
   const result = await client
     .db("A2_Bot")
     .collection("Lists")
-    .find({ guildId: guildId });
+    .find({ guildId: guildId })
+    .toArray();
 
-  console.log("Viewed list", result);
+  const res = [];
+  for (const list of result) {
+    res.push(list.name);
+  }
+  console.log("Viewed list", res);
 
-  return result;
+  return res;
 }
 
 // Delete a list
