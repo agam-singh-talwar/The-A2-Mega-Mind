@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { SlashCommandBuilder } from "discord.js";
 import { createTask } from "../../src/db/mongo.js";
 import { Task } from "../../src/Task.js";
@@ -54,5 +53,3 @@ export async function execute(interaction) {
 
   await interaction.reply(`Task Created! ${task}`);
 }
-=======
->>>>>>> d53e3bb (Update)
