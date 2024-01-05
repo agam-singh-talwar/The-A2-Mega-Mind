@@ -42,7 +42,7 @@ export async function viewAList(listName, guildId) {
     .collection("Lists")
     .findOne({ name: listName, guildId: guildId });
 
-  console.log("Viewed list", result);
+  console.log("Viewed list", JSON.stringify(result));
 
   return result;
 }

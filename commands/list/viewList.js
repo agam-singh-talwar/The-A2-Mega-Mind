@@ -1,6 +1,7 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import { ToDoList } from "../../src/List.js";
 import { viewAList } from "../../src/db/mongo.js";
+import { checkListName } from "../../src/db/mongo.js";
 
 export const data = new SlashCommandBuilder()
   .setName("view-specific-list")
@@ -14,7 +15,7 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction) {
   const name = interaction.options.getString("name");
   const guildId = interaction.guild.id; // Store the guild id of the server the list belongs to
-  const check = await ToDoList.checkListName(name, guildId);
+  const check = await checkListName(name); // Check if the list exists
   if (!check) {
     await interaction.reply(`List does not exist!`);
     return;
@@ -25,5 +26,11 @@ export async function execute(interaction) {
     await interaction.reply(`No lists found!`);
     return;
   }
-  await interaction.reply(`List Created! ${list}`);
+  const embed = new EmbedBuilder()
+    .setTitle(` ${list.name}`)
+    // .setDescription(`List ${list.name}`)
+    .setColor("#00ff00")
+    .setTimestamp();
+
+  await interaction.reply({ embeds: [embed] });
 }

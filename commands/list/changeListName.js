@@ -1,5 +1,4 @@
 import { SlashCommandBuilder } from "discord.js";
-import List from "../../src/List.js";
 import { viewAList, deleteList } from "../../src/db/mongo.js";
 
 export const data = new SlashCommandBuilder()
