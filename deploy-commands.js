@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import { REST, Routes } from "discord.js";
 import { join, dirname } from "node:path";
 import { readdirSync } from "node:fs";
@@ -66,4 +64,3 @@ const rest = new REST().setToken(token);
     console.error(error);
   }
 })();
->>>>>>> b1c4b89e5bc5e5ceb62f8e0656e7e80fd4dbec42
