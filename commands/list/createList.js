@@ -33,6 +33,7 @@ export async function execute(interaction) {
     return;
   }
   const owner = interaction.options.getUser("owner");
+  console.log(interaction.guild.id);
   const guildId = interaction.guild.id; // Store the guild id of the server the list belongs to
   const dueDate = interaction.options.getString("dueDate");
   const list = new List(name, owner, guildId, dueDate);
