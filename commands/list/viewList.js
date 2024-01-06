@@ -28,9 +28,14 @@ export async function execute(interaction) {
   }
   const embed = new EmbedBuilder()
     .setTitle(` ${list.name}`)
-    // .setDescription(`List ${list.name}`)
+    .setDescription(` ${list.description}`)
     .setColor("#00ff00")
-    .setTimestamp();
-
+    .setTimestamp()
+    .addFields(
+      { name: "Owner", value: `${list.owner.globalName}`, inline: false },
+      { name: "Due Date", value: `${list.dueDate}`, inline: false },
+      { name: "Created", value: `${list.created}`, inline: false },
+      { name: "Updated", value: `${list.updated}`, inline: false }
+    );
   await interaction.reply({ embeds: [embed] });
 }

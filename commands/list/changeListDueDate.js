@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
-import List from "../../src/List.js";
+import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import { viewAList, editDueDate, checkListName } from "../../src/db/mongo.js";
 
 export const data = new SlashCommandBuilder()
@@ -7,14 +6,14 @@ export const data = new SlashCommandBuilder()
   .setDescription("It helps you to edit a To Do List's due date.")
   .addStringOption((option) =>
     option
-      .setName("due-date")
-      .setDescription("The due date of the list to edit.")
+      .setName("name")
+      .setDescription("The name of the list to edit.")
       .setRequired(true)
   )
   .addStringOption((option) =>
     option
-      .setName("name")
-      .setDescription("The name of the list to edit.")
+      .setName("due-date")
+      .setDescription("The due date of the list to edit.")
       .setRequired(true)
   );
 export async function execute(interaction) {
@@ -27,4 +26,15 @@ export async function execute(interaction) {
     return;
   }
   const res = await editDueDate(name, guildId, dueDate);
+  if (!res) {
+    await interaction.reply(`Error:${res}`);
+    return;
+  }
+  const embed = new EmbedBuilder()
+    .setTitle(` ${name}`)
+    .setDescription(`List ${name} updated`)
+    .setColor("#0000ff")
+    .setTimestamp();
+
+  await interaction.reply({ embeds: [embed] });
 }

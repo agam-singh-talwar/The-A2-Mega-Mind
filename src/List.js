@@ -9,7 +9,8 @@ export class ToDoList {
     // Format  YYYY-MM-DD
     dueDate = null,
     // The guild id of the server the list belongs to
-    guildId = null
+    guildId = null,
+    description = null
   ) {
     this.guildId = guildId;
     this.name = name;
@@ -17,6 +18,7 @@ export class ToDoList {
     this.dueDate = dueDate;
     this.updated = new Date();
     this.owner = owner;
+    this.description = description;
   }
 }
 
