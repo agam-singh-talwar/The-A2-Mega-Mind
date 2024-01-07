@@ -42,7 +42,12 @@ export async function execute(interaction) {
   const owner = interaction.options.getUser("owner");
   const description = interaction.options.getString("description");
   const assignee = interaction.options.getUser("assignee");
-  const task = new Task({ name: name, description: description, owner: owner, assignee: assignee });
+  const task = new Task({
+    name: name,
+    description: description,
+    owner: owner,
+    assignee: assignee,
+  });
 
   await updateTask(list, task);
 

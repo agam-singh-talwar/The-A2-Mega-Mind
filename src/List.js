@@ -6,11 +6,11 @@ export class ToDoList {
     name = "To Do List",
     // If no onwer is provided it;s the perdon who made the list/ invoked the bot
     owner = null,
-    list = [],
     // Format  YYYY-MM-DD
     dueDate = null,
     // The guild id of the server the list belongs to
-    guildId = null
+    guildId = null,
+    description = null
   ) {
     this.guildId = guildId;
     this.name = name;
@@ -18,7 +18,7 @@ export class ToDoList {
     this.dueDate = dueDate;
     this.updated = new Date();
     this.owner = owner;
-    this.list = list;
+    this.description = description;
   }
 }
 

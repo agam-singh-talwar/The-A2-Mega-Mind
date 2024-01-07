@@ -12,7 +12,7 @@ async function checkConnection(listName) {
 }
 
 export async function createList(newListing) {
-  const client = checkConnection(newListing.name);
+  const client = await checkConnection(newListing.name);
 
   // Check if the collection exists, if not, create it
   const result = await client
@@ -31,7 +31,7 @@ export async function checkListName(name) {
     .db("A2_Bot")
     .collection("Lists")
     .findOne({ name: name });
-  console.log("Name already exists", result);
+  // console.log("Name already exists", result);
   return result;
 }
 // View a specific list
@@ -42,7 +42,7 @@ export async function viewAList(listName, guildId) {
     .collection("Lists")
     .findOne({ name: listName, guildId: guildId });
 
-  console.log("Viewed list", result);
+  console.log("Viewed list", JSON.stringify(result));
 
   return result;
 }
@@ -52,11 +52,16 @@ export async function viewAllLists(guildId) {
   const result = await client
     .db("A2_Bot")
     .collection("Lists")
-    .findOne({ guildId: guildId });
+    .find({ guildId: guildId })
+    .toArray();
 
-  console.log("Viewed list", result);
+  const res = [];
+  for (const list of result) {
+    res.push(list.name);
+  }
+  console.log("Viewed list", res);
 
-  return result;
+  return res;
 }
 
 // Delete a list
@@ -73,13 +78,15 @@ export async function deleteList(listName, guildId) {
 }
 
 //  Edit a list's name
-export async function editList(listName, newName) {
-  const client = checkConnection(listName);
-
+export async function editList(listName, guildId, newName) {
+  const client = await checkConnection(listName);
   const result = await client
     .db("A2_Bot")
     .collection("Lists")
-    .updateOne({ name: listName }, { $set: { name: newName } });
+    .updateOne(
+      { name: listName, guildId: guildId },
+      { $set: { name: newName } }
+    );
 
   console.log("Edited list", result);
 

@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-import 'dotenv/config';
+import "dotenv/config";
 
 const uri = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@senecaweb.grvntlm.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);

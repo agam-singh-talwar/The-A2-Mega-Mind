@@ -4,14 +4,17 @@ import { deleteTask } from "../../src/db/mongo.js";
 export const data = new SlashCommandBuilder()
   .setName("delete-task")
   .setDescription("Delete a task from a list")
-  .addStringOption((option) => option
-    .setName("task-name")
-    .setDescription("Name of the task")
-    .setRequired(true)
-  ).addStringOption((option) => option
-    .setName("list-name")
-    .setDescription("Name of the list the task can be found in")
-    .setRequired(true)
+  .addStringOption((option) =>
+    option
+      .setName("task-name")
+      .setDescription("Name of the task")
+      .setRequired(true)
+  )
+  .addStringOption((option) =>
+    option
+      .setName("list-name")
+      .setDescription("Name of the list the task can be found in")
+      .setRequired(true)
   );
 export async function execute(interaction) {
   const listName = interaction.options.getString("list-name");
