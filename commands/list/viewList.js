@@ -26,6 +26,18 @@ export async function execute(interaction) {
     await interaction.reply(`No lists found!`);
     return;
   }
+
+  const tasks = [{name: 'Tasks:', value: ' ', inline: false}];
+
+  for (const task of list.tasks) {
+    tasks.push({ name: 'Name:', value: task.name, inline: true });
+    tasks.push({ name: 'Owner:', value: task.owner.username, inline: true });
+    tasks.push({ name: 'Completed:', value: task.status ? '☒' : '☐', inline: true });
+    
+    task.assignee?.username && tasks.push({ name: 'Assignee:', value: task.assignee.username, inline: true });
+    task.description && tasks.push({ name: 'Description:', value: task.description, inline: true });
+  }
+
   const embed = new EmbedBuilder()
     .setTitle(` ${list.name}`)
     .setDescription(` ${list.description}`)
@@ -33,9 +45,10 @@ export async function execute(interaction) {
     .setTimestamp()
     .addFields(
       { name: "Owner", value: `${list.owner.globalName}`, inline: false },
-      { name: "Due Date", value: `${list.dueDate}`, inline: false },
-      { name: "Created", value: `${list.created}`, inline: false },
-      { name: "Updated", value: `${list.updated}`, inline: false }
+      { name: "Due Date", value: `${list.dueDate.toLocaleString()}`, inline: false },
+      { name: "Created", value: `${list.created.toLocaleString()}`, inline: false },
+      { name: "Updated", value: `${list.updated.toLocaleString()}`, inline: false },
+      ...tasks
     );
   await interaction.reply({ embeds: [embed] });
 }

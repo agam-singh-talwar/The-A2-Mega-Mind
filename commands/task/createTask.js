@@ -51,5 +51,5 @@ export async function execute(interaction) {
 
   await createTask(list, task);
 
-  await interaction.reply(`Task Created! ${task}`);
+  await interaction.reply(`Task created!`);
 }

@@ -9,19 +9,19 @@ export const data = new SlashCommandBuilder()
     option
       .setName("list")
       .setDescription("The list the task should be associated with")
-      .setRequired(true)
+      .setRequired(false)
   )
   .addStringOption((option) =>
     option
       .setName("name")
       .setDescription("The name of the task")
-      .setRequired(true)
+      .setRequired(false)
   )
   .addUserOption((option) =>
     option
       .setName("owner")
       .setDescription("The owner of the task")
-      .setRequired(true)
+      .setRequired(false)
   )
   .addStringOption((option) =>
     option
@@ -51,5 +51,5 @@ export async function execute(interaction) {
 
   await updateTask(list, task);
 
-  await interaction.reply(`List Created! ${listJson}`);
+  await interaction.reply(`task updated`);
 }

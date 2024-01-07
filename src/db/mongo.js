@@ -188,10 +188,11 @@ export async function toggleTask(listName, task) {
       { returnDocument: "after" }
     );
 
-  if (!result.value) {
+  if (!result) {
     console.warn(`Task named ${task.name} not found in list ${listName}`);
-    return null;
+  } else {
+    console.log(`Task named ${task.name} toggled in list ${listName}`);
   }
 
-  console.log(`Task named ${task.name} toggled in list ${listName}`);
+  return result;
 }
