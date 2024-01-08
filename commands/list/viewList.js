@@ -33,9 +33,6 @@ export async function execute(interaction) {
     tasks.push({ name: 'Name:', value: task.name, inline: true });
     tasks.push({ name: 'Owner:', value: task.owner.username, inline: true });
     tasks.push({ name: 'Completed:', value: task.status ? '☒' : '☐', inline: true });
-    
-    task.assignee?.username && tasks.push({ name: 'Assignee:', value: task.assignee.username, inline: true });
-    task.description && tasks.push({ name: 'Description:', value: task.description, inline: true });
   }
 
   const embed = new EmbedBuilder()
@@ -50,5 +47,6 @@ export async function execute(interaction) {
       { name: "Updated", value: `${list.updated.toLocaleString()}`, inline: false },
       ...tasks
     );
+    
   await interaction.reply({ embeds: [embed] });
 }

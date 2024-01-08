@@ -1,7 +1,7 @@
 //  Class to store the task items for the ToDoList
 
 export class Task {
-  constructor({ name = "", description = "", owner = null, assignee = null }) {
+  constructor({ name = "", description = "", owner = null, assignee = null, dueDate = null }) {
     // this.id = randomUUID();
     this.name = name;
     // Description of the task [optional]
@@ -14,6 +14,7 @@ export class Task {
     this.assignee = assignee;
     // The status of the task
     this.status = false;
+    this.dueDate = dueDate;
   }
 }
 

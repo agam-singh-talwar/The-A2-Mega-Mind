@@ -25,6 +25,12 @@ export const data = new SlashCommandBuilder()
   )
   .addStringOption((option) =>
     option
+      .setName("due-date")
+      .setDescription("Due date of the task")
+      .setRequired(false)
+  )
+  .addStringOption((option) =>
+    option
       .setName("description")
       .setDescription("The description of the task")
       .setRequired(false)
@@ -40,6 +46,7 @@ export async function execute(interaction) {
   const list = interaction.options.getString("list");
   const name = interaction.options.getString("name");
   const owner = interaction.options.getUser("owner");
+  const dueDate = interaction.options.getUser("due-date");
   const description = interaction.options.getString("description");
   const assignee = interaction.options.getUser("assignee");
   const task = new Task({
@@ -47,6 +54,7 @@ export async function execute(interaction) {
     description: description,
     owner: owner,
     assignee: assignee,
+    dueDate: dueDate
   });
 
   await createTask(list, task);
